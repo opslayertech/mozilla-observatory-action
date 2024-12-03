@@ -1,35 +1,18 @@
-import { URL } from "url";
-import { observatoryResponseToMarkdown } from "./utils";
+import * as core from "@actions/core";
+import { scan } from "./scan";
 
-export async function scan({ url }: { url: string }) {
-	if (!url) {
-		throw new Error("SANDBOX_URL env variable is required");
+
+async function main() {
+	try {
+		const url = core.getInput("url");
+		console.log(`URL from Input: ${url}`);
+		await scan({ url });
+	} catch (error) {
+		core.setFailed(error.message);
 	}
-
-	const hostname = new URL(url).hostname;
-
-	console.log("Running Observatory scan for:", hostname);
-
-	const response = await fetch(
-		`https://observatory-api.mdn.mozilla.net/api/v2/scan?host=${hostname}`,
-		{
-			method: "POST",
-		},
-	);
-
-	const json = await response.json();
-
-	console.log("Observatory response:", json);
-
-	if (json.error) {
-		throw new Error(json.error + " " + json.message);
-	}
-
-	const fileName = "observatory.md";
-
-	const markdown = observatoryResponseToMarkdown(json);
-	// @ts-ignore
-	await Bun.write(fileName, markdown);
-
-	console.log(`Observatory scan results written to ${fileName}`);
 }
+
+main().catch((error) => {
+	console.error(error);
+	throw error;
+});
