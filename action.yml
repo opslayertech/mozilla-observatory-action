@@ -19,7 +19,7 @@ runs:
       shell: bash
 
     - name: 💻 Run Observatory script
-      run: bun index.ts
+      run: bun ./index.ts
       shell: bash
 
     - name: Print observatory.md
