@@ -27436,63 +27436,44 @@ function observatoryResponseToMarkdown(response) {
 }
 
 ;// CONCATENATED MODULE: ./src/scan.ts
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+
+
+
+async function scan({ url }) {
+    if (!url) {
+        throw new Error("SANDBOX_URL env variable is required");
+    }
+    const hostname = new external_node_url_namespaceObject.URL(url).hostname;
+    console.log("Running Observatory scan for:", hostname);
+    const response = await fetch(`https://observatory-api.mdn.mozilla.net/api/v2/scan?host=${hostname}`, {
+        method: "POST",
     });
-};
-
-
-
-function scan(_a) {
-    return __awaiter(this, arguments, void 0, function* ({ url }) {
-        if (!url) {
-            throw new Error("SANDBOX_URL env variable is required");
-        }
-        const hostname = new external_node_url_namespaceObject.URL(url).hostname;
-        console.log("Running Observatory scan for:", hostname);
-        const response = yield fetch(`https://observatory-api.mdn.mozilla.net/api/v2/scan?host=${hostname}`, {
-            method: "POST",
-        });
-        const json = yield response.json();
-        console.log("Observatory response:", json);
-        if (json.error) {
-            throw new Error(json.error + " " + json.message);
-        }
-        const fileName = "observatory.md";
-        const markdown = observatoryResponseToMarkdown(json);
-        yield (0,external_node_fs_namespaceObject.writeFileSync)(fileName, markdown);
-        console.log(`Observatory scan results written to ${fileName}`);
-    });
+    const json = await response.json();
+    console.log("Observatory response:", json);
+    if (json.error) {
+        throw new Error(json.error + " " + json.message);
+    }
+    const fileName = "observatory.md";
+    const markdown = observatoryResponseToMarkdown(json);
+    await (0,external_node_fs_namespaceObject.writeFileSync)(fileName, markdown);
+    console.log(`Observatory scan results written to ${fileName}`);
+    return markdown;
 }
 
 ;// CONCATENATED MODULE: ./src/index.ts
-var src_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 
 
-function main() {
-    return src_awaiter(this, void 0, void 0, function* () {
-        try {
-            const url = core.getInput("url");
-            console.log(`URL from Input: ${url}`);
-            yield scan({ url });
-        }
-        catch (error) {
-            core.setFailed(error.message);
-        }
-    });
+async function main() {
+    try {
+        const url = core.getInput("url");
+        console.log(`URL from Input: ${url}`);
+        const result = await scan({ url });
+        console.log(`Scan result: ${result}`);
+        core.setOutput("result", result);
+    }
+    catch (error) {
+        core.setFailed(error.message);
+    }
 }
 main().catch((error) => {
     console.error(error);

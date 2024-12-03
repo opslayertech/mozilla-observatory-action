@@ -2,7 +2,7 @@ import { writeFileSync } from "node:fs";
 import { URL } from "node:url";
 import { observatoryResponseToMarkdown } from "./utils";
 
-export async function scan({ url }: { url: string }) {
+export async function scan({ url }: { url: string }): Promise<string> {
 	if (!url) {
 		throw new Error("SANDBOX_URL env variable is required");
 	}
@@ -32,4 +32,6 @@ export async function scan({ url }: { url: string }) {
 	await writeFileSync(fileName, markdown);
 
 	console.log(`Observatory scan results written to ${fileName}`);
+
+	return markdown;
 }

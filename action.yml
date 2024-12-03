@@ -5,44 +5,10 @@ inputs:
   url:
     description: "The URL for the observatory scan."
     required: true
+outputs:
+  result:
+    description: "The result of the Mozilla Observatory scan. (Markdown format)"    
 
 runs:
   using: 'node20'
   main: 'dist/index.js'
-
-# runs:
-#   using: "composite"
-#   steps:
-#     - name: 🤘 Checkout
-#       uses: actions/checkout@v4
-
-#     - uses: oven-sh/setup-bun@v1
-
-#     - name: Bun version
-#       run: bun --version
-#       shell: bash
-
-#     - name: Check Files
-#       run: ls -la
-#       shell: bash
-
-#     - name: 💻 Run Observatory script
-#       run: bun ./index.ts
-#       shell: bash
-
-#     - name: Print observatory.md
-#       run: cat observatory.md
-#       shell: bash
-
-#     - name: Read observatory.md
-#       id: read-file
-#       uses: jaywcjlove/github-action-read-file@main
-#       with:
-#         localfile: observatory.md
-
-#     - name: Create commit comment
-#       uses: peter-evans/commit-comment@v1
-#       with:
-#         body: |
-#           # Mozilla Observatory Scan Results
-#           ${{ steps.read-file.outputs.content }}
