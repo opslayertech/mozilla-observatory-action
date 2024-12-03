@@ -18,6 +18,10 @@ runs:
       run: bun --version
       shell: bash
 
+    - name: Check Files
+      run: ls -la
+      shell: bash
+
     - name: 💻 Run Observatory script
       run: bun ./index.ts
       shell: bash
