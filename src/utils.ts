@@ -1,4 +1,4 @@
-interface Result {
+export interface MozillaScanResponse {
 	id: number;
 	details_url: string;
 	algorithm_version: number;
@@ -13,7 +13,7 @@ interface Result {
 	message?: string;
 }
 
-export function observatoryResponseToMarkdown(response: Result) {
+export function observatoryResponseToMarkdown(response: MozillaScanResponse) {
 	const {
 		id,
 		details_url,

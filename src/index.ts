@@ -6,10 +6,12 @@ async function main() {
 		const url = core.getInput("url");
 		console.log(`URL from Input: ${url}`);
 
-		const result = await scan({ url });
+		const { markdown, json } = await scan({ url });
 
-		console.log(`Scan result: ${result}`);
-		core.setOutput("result", result);
+		console.log(`Scan Markdown result: ${markdown}`);
+		console.log(`Scan JSON result: ${json}`);
+		core.setOutput("markdown-result", markdown);
+		core.setOutput("json-result", markdown);
 	} catch (error) {
 		core.setFailed(error.message);
 	}

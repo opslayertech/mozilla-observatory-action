@@ -1,8 +1,15 @@
-import { writeFileSync } from "node:fs";
 import { URL } from "node:url";
-import { observatoryResponseToMarkdown } from "./utils";
+import {
+	type MozillaScanResponse,
+	observatoryResponseToMarkdown,
+} from "./utils";
 
-export async function scan({ url }: { url: string }): Promise<string> {
+type ScanResult = {
+	markdown: string;
+	json: MozillaScanResponse;
+};
+
+export async function scan({ url }: { url: string }): Promise<ScanResult> {
 	if (!url) {
 		throw new Error("SANDBOX_URL env variable is required");
 	}
@@ -18,7 +25,7 @@ export async function scan({ url }: { url: string }): Promise<string> {
 		},
 	);
 
-	const json = await response.json();
+	const json: MozillaScanResponse = await response.json();
 
 	console.log("Observatory response:", json);
 
@@ -29,9 +36,8 @@ export async function scan({ url }: { url: string }): Promise<string> {
 	const fileName = "observatory.md";
 
 	const markdown = observatoryResponseToMarkdown(json);
-	await writeFileSync(fileName, markdown);
 
 	console.log(`Observatory scan results written to ${fileName}`);
 
-	return markdown;
+	return { markdown, json };
 }

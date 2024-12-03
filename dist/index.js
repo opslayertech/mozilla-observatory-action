@@ -27412,8 +27412,6 @@ var __webpack_exports__ = {};
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(7484);
-;// CONCATENATED MODULE: external "node:fs"
-const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:fs");
 ;// CONCATENATED MODULE: external "node:url"
 const external_node_url_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:url");
 ;// CONCATENATED MODULE: ./src/utils.ts
@@ -27438,7 +27436,6 @@ function observatoryResponseToMarkdown(response) {
 ;// CONCATENATED MODULE: ./src/scan.ts
 
 
-
 async function scan({ url }) {
     if (!url) {
         throw new Error("SANDBOX_URL env variable is required");
@@ -27455,9 +27452,8 @@ async function scan({ url }) {
     }
     const fileName = "observatory.md";
     const markdown = observatoryResponseToMarkdown(json);
-    await (0,external_node_fs_namespaceObject.writeFileSync)(fileName, markdown);
     console.log(`Observatory scan results written to ${fileName}`);
-    return markdown;
+    return { markdown, json };
 }
 
 ;// CONCATENATED MODULE: ./src/index.ts
@@ -27467,9 +27463,11 @@ async function main() {
     try {
         const url = core.getInput("url");
         console.log(`URL from Input: ${url}`);
-        const result = await scan({ url });
-        console.log(`Scan result: ${result}`);
-        core.setOutput("result", result);
+        const { markdown, json } = await scan({ url });
+        console.log(`Scan Markdown result: ${markdown}`);
+        console.log(`Scan JSON result: ${json}`);
+        core.setOutput("markdown-result", markdown);
+        core.setOutput("json-result", markdown);
     }
     catch (error) {
         core.setFailed(error.message);
