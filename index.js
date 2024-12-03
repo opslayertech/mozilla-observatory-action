@@ -1,7 +1,7 @@
-const { URL } = require("url");
-const core = require("@actions/core");
-const fetch = require("node-fetch");
-const fs = require("fs").promises;
+import { URL } from "url";
+import * as core from "@actions/core";
+import { writeFile } from "fs/promises";
+import fetch from "node-fetch";
 
 function observatoryResponseToMarkdown(response) {
 	const {
@@ -61,7 +61,7 @@ async function scan({ url }) {
 
 	const markdown = observatoryResponseToMarkdown(json);
 
-	await fs.writeFile(fileName, markdown, "utf8");
+	await writeFile(fileName, markdown, "utf8");
 
 	console.log(`Observatory scan results written to ${fileName}`);
 }
