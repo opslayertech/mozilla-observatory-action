@@ -1,22 +1,9 @@
-import { URL } from "url";
-import * as core from "@actions/core";
+const { URL } = require("url");
+const core = require("@actions/core");
+const fetch = require("node-fetch");
+const fs = require("fs").promises;
 
-interface Result {
-	id: number;
-	details_url: string;
-	algorithm_version: number;
-	scanned_at: string;
-	error: null | string;
-	grade: string;
-	score: number;
-	status_code: number;
-	tests_failed: number;
-	tests_passed: number;
-	tests_quantity: number;
-	message?: string;
-}
-
-export function observatoryResponseToMarkdown(response: Result) {
+function observatoryResponseToMarkdown(response) {
 	const {
 		id,
 		details_url,
@@ -46,7 +33,7 @@ export function observatoryResponseToMarkdown(response: Result) {
   - **Tests Failed**: ${tests_failed}`;
 }
 
-export async function scan({ url }: { url: string }) {
+async function scan({ url }) {
 	if (!url) {
 		throw new Error("SANDBOX_URL env variable is required");
 	}
@@ -73,8 +60,8 @@ export async function scan({ url }: { url: string }) {
 	const fileName = "observatory.md";
 
 	const markdown = observatoryResponseToMarkdown(json);
-	// @ts-ignore
-	await Bun.write(fileName, markdown);
+
+	await fs.writeFile(fileName, markdown, "utf8");
 
 	console.log(`Observatory scan results written to ${fileName}`);
 }
