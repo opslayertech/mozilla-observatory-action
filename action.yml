@@ -6,8 +6,10 @@ inputs:
     description: "The URL for the observatory scan."
     required: true
 outputs:
-  result:
-    description: "The result of the Mozilla Observatory scan. (Markdown format)"    
+  markdown-result:
+    description: "The result of the Mozilla Observatory scan. (Markdown format)"
+  json-result:
+    description: "The result of the Mozilla Observatory scan. (JSON format)"  
 
 runs:
   using: 'node20'
