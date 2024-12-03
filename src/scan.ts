@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import { URL } from "node:url";
 import { observatoryResponseToMarkdown } from "./utils";
 
@@ -28,8 +29,7 @@ export async function scan({ url }: { url: string }) {
 	const fileName = "observatory.md";
 
 	const markdown = observatoryResponseToMarkdown(json);
-	// @ts-ignore
-	await Bun.write(fileName, markdown);
+	await writeFileSync(fileName, markdown);
 
 	console.log(`Observatory scan results written to ${fileName}`);
 }

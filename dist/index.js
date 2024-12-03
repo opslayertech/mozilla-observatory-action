@@ -27412,6 +27412,8 @@ var __webpack_exports__ = {};
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(7484);
+;// CONCATENATED MODULE: external "node:fs"
+const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:fs");
 ;// CONCATENATED MODULE: external "node:url"
 const external_node_url_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:url");
 ;// CONCATENATED MODULE: ./src/utils.ts
@@ -27445,6 +27447,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
+
 function scan(_a) {
     return __awaiter(this, arguments, void 0, function* ({ url }) {
         if (!url) {
@@ -27462,8 +27465,7 @@ function scan(_a) {
         }
         const fileName = "observatory.md";
         const markdown = observatoryResponseToMarkdown(json);
-        // @ts-ignore
-        yield Bun.write(fileName, markdown);
+        yield (0,external_node_fs_namespaceObject.writeFileSync)(fileName, markdown);
         console.log(`Observatory scan results written to ${fileName}`);
     });
 }
