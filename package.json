@@ -1,0 +1,21 @@
+{
+	"name": "mozilla-observatory-action",
+	"version": "1.0.0",
+	"description": "An action to run the Mozilla Observatory scan and return results.",
+	"type": "module",
+	"main": "index.ts",
+	"scripts": {
+		"build": "ncc build src/index.ts -o dist",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "https://opslayer.com/",
+	"license": "ISC",
+	"dependencies": {
+		"@actions/core": "^1.11.1"
+	},
+	"devDependencies": {
+		"@types/node": "^22.10.1",
+		"@vercel/ncc": "^0.38.3",
+		"typescript": "^5.7.2"
+	}
+}

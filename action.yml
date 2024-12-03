@@ -1,0 +1,16 @@
+name: Observatory Scan Action
+description: An action to run the Mozilla Observatory scan and return results.
+author: https://opslayer.com/
+inputs:
+  url:
+    description: "The URL for the observatory scan."
+    required: true
+outputs:
+  markdown-result:
+    description: "The result of the Mozilla Observatory scan. (Markdown format)"
+  json-result:
+    description: "The result of the Mozilla Observatory scan. (JSON format)"  
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
