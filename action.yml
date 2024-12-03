@@ -9,9 +9,8 @@ inputs:
 runs:
   using: 'node20'
   pre: |
-    npm install
+    npm ci
   main: 'index.js'
-
 
 # runs:
 #   using: "composite"
