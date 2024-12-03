@@ -5,11 +5,15 @@
 	"type": "module",
 	"main": "index.ts",
 	"scripts": {
+		"build": "ncc build index.js -o dist",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "https://opslayer.com/",
 	"license": "ISC",
 	"dependencies": {
 		"@actions/core": "^1.11.1"
+	},
+	"devDependencies": {
+		"@vercel/ncc": "^0.38.3"
 	}
 }
