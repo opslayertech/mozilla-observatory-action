@@ -1,5 +1,4 @@
 import { URL } from "url";
-import { writeFile } from "fs/promises";
 import { observatoryResponseToMarkdown } from "./utils";
 
 export async function scan({ url }: { url: string }) {
@@ -29,7 +28,8 @@ export async function scan({ url }: { url: string }) {
 	const fileName = "observatory.md";
 
 	const markdown = observatoryResponseToMarkdown(json);
-	await writeFile(fileName, markdown);
+	// @ts-ignore
+	await Bun.write(fileName, markdown);
 
 	console.log(`Observatory scan results written to ${fileName}`);
 }

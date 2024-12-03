@@ -12,10 +12,14 @@ runs:
     - name: 🤘 Checkout
       uses: actions/checkout@v4
 
-    - uses: opslayertech/setup-node@main
+    - uses: oven-sh/setup-bun@v1
+
+    - name: Bun version
+      run: bun --version
+      shell: bash
 
     - name: 💻 Run Observatory script
-      run: npx tsx index.ts
+      run: bun index.ts
       shell: bash
 
     - name: Print observatory.md
