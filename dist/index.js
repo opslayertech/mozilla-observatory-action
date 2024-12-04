@@ -27061,6 +27061,9 @@ function getDecoder (charset) {
         return decoders.utf16le
       case 'base64':
         return decoders.base64
+        
+        
+        
       default:
         if (lc === undefined) {
           lc = true
