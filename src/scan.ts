@@ -14,6 +14,8 @@ export async function scan({ url }: { url: string }): Promise<ScanResult> {
 		throw new Error("SANDBOX_URL env variable is required");
 	}
 
+	await fetch(url, { signal: AbortSignal.timeout(10000) });
+
 	const hostname = new URL(url).hostname;
 
 	console.log("Running Observatory scan for:", hostname);
@@ -30,7 +32,7 @@ export async function scan({ url }: { url: string }): Promise<ScanResult> {
 	console.log("Observatory response:", json);
 
 	if (json.error) {
-		throw new Error(json.error + " " + json.message);
+		throw new Error(`${json.error} ${json.message}`);
 	}
 
 	const fileName = "observatory.md";
