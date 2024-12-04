@@ -11,7 +11,7 @@ async function main() {
 		console.log(`Scan Markdown result: ${markdown}`);
 		console.log(`Scan JSON result: ${json}`);
 		core.setOutput("markdown-result", markdown);
-		core.setOutput("json-result", json);
+		core.setOutput("json-result", JSON.stringify(json));
 	} catch (error) {
 		core.setFailed(error.message);
 	}

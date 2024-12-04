@@ -27440,7 +27440,7 @@ async function scan({ url }) {
     if (!url) {
         throw new Error("SANDBOX_URL env variable is required");
     }
-    await fetch(url, { signal: AbortSignal.timeout(10000) });
+    await fetch(url).catch(console.error);
     const hostname = new external_node_url_namespaceObject.URL(url).hostname;
     console.log("Running Observatory scan for:", hostname);
     const response = await fetch(`https://observatory-api.mdn.mozilla.net/api/v2/scan?host=${hostname}`, {
@@ -27468,7 +27468,7 @@ async function main() {
         console.log(`Scan Markdown result: ${markdown}`);
         console.log(`Scan JSON result: ${json}`);
         core.setOutput("markdown-result", markdown);
-        core.setOutput("json-result", json);
+        core.setOutput("json-result", JSON.stringify(json));
     }
     catch (error) {
         core.setFailed(error.message);
