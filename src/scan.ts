@@ -14,7 +14,7 @@ export async function scan({ url }: { url: string }): Promise<ScanResult> {
 		throw new Error("SANDBOX_URL env variable is required");
 	}
 
-	await fetch(url, { signal: AbortSignal.timeout(10000) });
+	await fetch(url).catch(console.error);
 
 	const hostname = new URL(url).hostname;
 
