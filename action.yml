@@ -3,7 +3,7 @@ description: An action to run the Mozilla Observatory scan and return results.
 author: https://opslayer.com/
 inputs:
   url:
-    description: "The URL for the observatory scan."
+    description: "The URL for the observatory scan. (e.g. https://example.com). Should start with https://"
     required: true
 outputs:
   markdown-result:
